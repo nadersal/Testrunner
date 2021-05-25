@@ -38,8 +38,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       paddingBottom: 50,
-      marginTop: 30,
-      marginBottom: 15,
+      marginTop: 150,
+      marginBottom: 150,
       marginRight: "1rem",
       marginLeft: "1rem",
     },
@@ -156,8 +156,8 @@ function App() {
     if (progress === 33) {
       setProgress(66);
     } else if (progress === 66) {
-      setProgress(99);
-    } else if (progress === 99) {
+      setProgress(100);
+    } else if (progress === 100) {
       setProgress(0);
     } else if (progress === 0) {
       setProgress(33);

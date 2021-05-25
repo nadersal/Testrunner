@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import LinearProgress, {
   LinearProgressProps,
@@ -32,6 +32,20 @@ const useStyles = makeStyles((theme: Theme) =>
 function LinearProgressWithLabel(
   props: LinearProgressProps & { value: number }
 ) {
+  const [progress, setProgress] = useState<string>("");
+
+  useEffect(() => {
+    if (props.value === 0) {
+      setProgress("0/1");
+    } else if (props.value === 33) {
+      setProgress("1/3");
+    } else if (props.value === 66) {
+      setProgress("2/3");
+    } else if (props.value === 100) {
+      setProgress("3/3");
+    }
+  }, [props.value]);
+
   const classes = useStyles();
   return (
     <Box display="flex" alignItems="center">
@@ -49,9 +63,9 @@ function LinearProgressWithLabel(
         />
       </Box>
       <Box minWidth={35}>
-        <Typography variant="body2" color="textSecondary">{`${Math.round(
-          props.value
-        )}%`}</Typography>
+        <Typography variant="body2" color="textSecondary">
+          {progress}
+        </Typography>
       </Box>
     </Box>
   );

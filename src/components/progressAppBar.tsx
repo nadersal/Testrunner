@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function AppbarNew(props: { value: number }) {
   const classes = useStyles();
-  const [progress, setProgress] = React.useState(10);
 
   return (
     <div className={classes.root}>
