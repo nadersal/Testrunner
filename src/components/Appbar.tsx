@@ -83,12 +83,12 @@ export default function Header(props: { value: number }) {
                 alignItems="center"
                 justify="center"
               >
-                <Grid item xs={3}>
+                <Grid item xs={1}>
                   <Typography variant="h5" className={classes.title}>
                     TC:
                   </Typography>
                 </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={11} alignContent="flex-start">
                   <LinearWithValueLabel value={props.value} />
                 </Grid>
               </Grid>

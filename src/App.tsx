@@ -6,9 +6,13 @@ import {
   Box,
   Container,
   createStyles,
+  FormControl,
   Grid,
   IconButton,
+  InputAdornment,
+  InputLabel,
   makeStyles,
+  OutlinedInput,
   Paper,
   TextField,
   Theme,
@@ -179,7 +183,7 @@ function App() {
           className={classes.paper}
           spacing={3}
         >
-          <Grid item xs={12}>
+          <Grid item xs={12} alignContent="center" justify="center">
             <Paper elevation={3} className={classes.paperContext}>
               <Grid container direction="row" alignContent="center" spacing={3}>
                 <Grid item xs={12} lg={4}>
@@ -219,8 +223,13 @@ function App() {
                   </Box>
                 </Grid>
                 <Grid item xs={12} lg={4}>
-                  <Grid container direction="column" alignContent="flex-start">
-                    <Grid item>
+                  <Grid
+                    container
+                    direction="column"
+                    alignContent="flex-start"
+                    spacing={1}
+                  >
+                    <Grid item xs={12}>
                       <TextField
                         id="standard-multiline-flexible"
                         multiline
@@ -228,16 +237,22 @@ function App() {
                         value="Actual result"
                       />
                     </Grid>
-                    <Grid item xs={12}>
-                      <Box flexWrap="wrap" justifyContent="flex-start">
-                        <TextField
-                          id="filled-multiline-static"
-                          multiline
-                          fullWidth
-                          rows={5}
-                          variant="outlined"
-                        />
-                      </Box>
+                    <Grid container xs={12} spacing={2}>
+                      <Grid item xs={12}>
+                        <Box flex={1}>
+                          <TextField
+                            fullWidth
+                            id="standard-multiline-flexible"
+                            multiline
+                            //rowsMax={4}
+                            rows={5}
+                            variant="outlined"
+                          >
+                            {/* />*/}
+                          </TextField>
+                          {/* />*  </FormControl> */}
+                        </Box>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -284,8 +299,13 @@ function App() {
                   </Box>
                 </Grid>
                 <Grid item xs={12} lg={4}>
-                  <Grid container direction="column" alignContent="flex-start">
-                    <Grid item>
+                  <Grid
+                    container
+                    direction="column"
+                    alignContent="flex-start"
+                    spacing={1}
+                  >
+                    <Grid item xs={12}>
                       <TextField
                         id="standard-multiline-flexible"
                         multiline
@@ -293,16 +313,22 @@ function App() {
                         value="Actual result"
                       />
                     </Grid>
-                    <Grid item xs={12}>
-                      <Box flexWrap="wrap" justifyContent="flex-start">
-                        <TextField
-                          id="filled-multiline-static"
-                          multiline
-                          fullWidth
-                          rows={5}
-                          variant="outlined"
-                        />
-                      </Box>
+                    <Grid container xs={12} spacing={2}>
+                      <Grid item xs={12}>
+                        <Box flex={1}>
+                          <TextField
+                            fullWidth
+                            id="standard-multiline-flexible"
+                            multiline
+                            //rowsMax={4}
+                            rows={5}
+                            variant="outlined"
+                          >
+                            {/* />*/}
+                          </TextField>
+                          {/* />*  </FormControl> */}
+                        </Box>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -349,8 +375,13 @@ function App() {
                   </Box>
                 </Grid>
                 <Grid item xs={12} lg={4}>
-                  <Grid container direction="column" alignContent="flex-start">
-                    <Grid item>
+                  <Grid
+                    container
+                    direction="column"
+                    alignContent="flex-start"
+                    spacing={1}
+                  >
+                    <Grid item xs={12}>
                       <TextField
                         id="standard-multiline-flexible"
                         multiline
@@ -358,16 +389,22 @@ function App() {
                         value="Actual result"
                       />
                     </Grid>
-                    <Grid item xs={12}>
-                      <Box flexWrap="wrap" justifyContent="flex-start">
-                        <TextField
-                          id="filled-multiline-static"
-                          multiline
-                          fullWidth
-                          rows={5}
-                          variant="outlined"
-                        />
-                      </Box>
+                    <Grid container xs={12} spacing={2}>
+                      <Grid item xs={12}>
+                        <Box flex={1}>
+                          <TextField
+                            fullWidth
+                            id="standard-multiline-flexible"
+                            multiline
+                            //rowsMax={4}
+                            rows={5}
+                            variant="outlined"
+                          >
+                            {/* />*/}
+                          </TextField>
+                          {/* />*  </FormControl> */}
+                        </Box>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -414,8 +451,13 @@ function App() {
                   </Box>
                 </Grid>
                 <Grid item xs={12} lg={4}>
-                  <Grid container direction="column" alignContent="flex-start">
-                    <Grid item>
+                  <Grid
+                    container
+                    direction="column"
+                    alignContent="flex-start"
+                    spacing={1}
+                  >
+                    <Grid item xs={12}>
                       <TextField
                         id="standard-multiline-flexible"
                         multiline
@@ -423,16 +465,22 @@ function App() {
                         value="Actual result"
                       />
                     </Grid>
-                    <Grid item xs={12}>
-                      <Box flexWrap="wrap" justifyContent="flex-start">
-                        <TextField
-                          id="filled-multiline-static"
-                          multiline
-                          fullWidth
-                          rows={5}
-                          variant="outlined"
-                        />
-                      </Box>
+                    <Grid container xs={12} spacing={2}>
+                      <Grid item xs={12}>
+                        <Box flex={1}>
+                          <TextField
+                            fullWidth
+                            id="standard-multiline-flexible"
+                            multiline
+                            //rowsMax={4}
+                            rows={5}
+                            variant="outlined"
+                          >
+                            {/* />*/}
+                          </TextField>
+                          {/* />*  </FormControl> */}
+                        </Box>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -479,8 +527,13 @@ function App() {
                   </Box>
                 </Grid>
                 <Grid item xs={12} lg={4}>
-                  <Grid container direction="column" alignContent="flex-start">
-                    <Grid item>
+                  <Grid
+                    container
+                    direction="column"
+                    alignContent="flex-start"
+                    spacing={1}
+                  >
+                    <Grid item xs={12}>
                       <TextField
                         id="standard-multiline-flexible"
                         multiline
@@ -488,23 +541,28 @@ function App() {
                         value="Actual result"
                       />
                     </Grid>
-                    <Grid item xs={12}>
-                      <Box flexWrap="wrap" justifyContent="flex-start">
-                        <TextField
-                          id="filled-multiline-static"
-                          multiline
-                          fullWidth
-                          rows={5}
-                          variant="outlined"
-                        />
-                      </Box>
+                    <Grid container xs={12} spacing={2}>
+                      <Grid item xs={12}>
+                        <Box flex={1}>
+                          <TextField
+                            fullWidth
+                            id="standard-multiline-flexible"
+                            multiline
+                            //rowsMax={4}
+                            rows={5}
+                            variant="outlined"
+                          >
+                            {/* />*/}
+                          </TextField>
+                          {/* />*  </FormControl> */}
+                        </Box>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
             </Paper>
           </Grid>
-
           <Grid item xs={12}>
             <Paper elevation={3} className={classes.paperContext}>
               <Grid container direction="row" alignContent="center" spacing={3}>
@@ -545,8 +603,13 @@ function App() {
                   </Box>
                 </Grid>
                 <Grid item xs={12} lg={4}>
-                  <Grid container direction="column" alignContent="flex-start">
-                    <Grid item>
+                  <Grid
+                    container
+                    direction="column"
+                    alignContent="flex-start"
+                    spacing={1}
+                  >
+                    <Grid item xs={12}>
                       <TextField
                         id="standard-multiline-flexible"
                         multiline
@@ -554,16 +617,22 @@ function App() {
                         value="Actual result"
                       />
                     </Grid>
-                    <Grid item xs={12}>
-                      <Box flexWrap="wrap" justifyContent="flex-start">
-                        <TextField
-                          id="filled-multiline-static"
-                          multiline
-                          fullWidth
-                          rows={5}
-                          variant="outlined"
-                        />
-                      </Box>
+                    <Grid container xs={12} spacing={2}>
+                      <Grid item xs={12}>
+                        <Box flex={1}>
+                          <TextField
+                            fullWidth
+                            id="standard-multiline-flexible"
+                            multiline
+                            //rowsMax={4}
+                            rows={5}
+                            variant="outlined"
+                          >
+                            {/* />*/}
+                          </TextField>
+                          {/* />*  </FormControl> */}
+                        </Box>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
