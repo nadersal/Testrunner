@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import {
@@ -18,6 +18,7 @@ import {
 import Header from "./components/Appbar";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
+
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import BugReportIcon from "@material-ui/icons/BugReport";
@@ -148,13 +149,25 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function App() {
   const classes = useStyles();
+  const [progress, setProgress] = useState<number>(33);
+
+  const onSuccess = () => {
+    console.log(progress);
+    if (progress === 33) {
+      setProgress(66);
+    } else if (progress === 66) {
+      setProgress(99);
+    } else if (progress === 99) {
+      setProgress(0);
+    } else if (progress === 0) {
+      setProgress(33);
+    }
+  };
+
   return (
     <Grid container direction="row" alignItems="center" justify="center">
       <Grid item xl={12}>
-        <Header />
-      </Grid>
-      <Grid item xl={12}>
-        <AppbarNew />
+        <Header value={progress} />
       </Grid>
       <Grid item xl={12} xs={12} className={classes.paperRoot} justify="center">
         <Grid
@@ -574,7 +587,7 @@ function App() {
               <Grid item>
                 <Grid container>
                   <Grid item>
-                    <IconButton>
+                    <IconButton onClick={onSuccess}>
                       <CheckCircleIcon className={classes.playButton} />
                     </IconButton>
                   </Grid>

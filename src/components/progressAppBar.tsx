@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function AppbarNew() {
+export default function AppbarNew(props: { value: number }) {
   const classes = useStyles();
   const [progress, setProgress] = React.useState(10);
 
@@ -39,7 +39,7 @@ export default function AppbarNew() {
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar>
-          <LinearWithValueLabel />
+          <LinearWithValueLabel value={props.value} />
           <Typography variant="h6" className={classes.title}></Typography>
         </Toolbar>
       </AppBar>

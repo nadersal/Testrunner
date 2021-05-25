@@ -56,7 +56,7 @@ function LinearProgressWithLabel(
     </Box>
   );
 }
-export default function LinearWithValueLabel() {
+export default function LinearWithValueLabel(props: { value: number }) {
   const classes = useStyles();
   const [progress, setProgress] = React.useState(10);
 
@@ -73,7 +73,7 @@ export default function LinearWithValueLabel() {
 
   return (
     <div className={classes.root}>
-      <LinearProgressWithLabel value={20} />
+      <LinearProgressWithLabel value={props.value} />
     </div>
   );
 }

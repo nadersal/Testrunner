@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import LinearWithValueLabel from "./progressLine";
@@ -39,16 +40,23 @@ const useStyles = makeStyles((theme: Theme) =>
       //color: "#241e1e",
       backgroundColor: "grey",
       minHeight: "48px",
+      paddingRight: "1rem",
+      paddingLeft: "1rem",
     },
     appBarNewNew: {
       //color: "#241e1e",
       backgroundColor: "white",
       minHeight: "48px",
+      paddingRight: "1rem",
+      paddingLeft: "1rem",
+    },
+    blackTypo: {
+      color: "black",
     },
   })
 );
 
-export default function Header() {
+export default function Header(props: { value: number }) {
   const classes = useStyles();
 
   return (
@@ -81,11 +89,27 @@ export default function Header() {
                   </Typography>
                 </Grid>
                 <Grid item xs={9}>
-                  <LinearWithValueLabel />
+                  <LinearWithValueLabel value={props.value} />
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={6}></Grid>
+            <Grid item xs={6}>
+              <Grid
+                container
+                direction="row"
+                alignItems="center"
+                justify="flex-end"
+              >
+                <Grid item>
+                  <Typography>01:23</Typography>
+                </Grid>
+                <Grid item>
+                  <IconButton>
+                    <AccessTimeIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
         </div>
         <div className={classes.appBarNewNew}>
@@ -93,19 +117,36 @@ export default function Header() {
             container
             direction="row"
             alignItems="flex-start"
-            justify="flex-start"
+            //justify="flex-start"
           >
-            <Grid item xs={6} alignItems="flex-start">
+            <Grid item xs={6}>
+              <Grid
+                container
+                direction="row"
+                alignItems="flex-start"
+                justify="flex-start"
+              >
+                <Grid item xs={3} alignItems="flex-end">
+                  <Typography variant="h5" className={classes.titleNew}>
+                    TC:
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={6} alignItems="flex-end">
               <Grid
                 container
                 direction="row"
                 alignItems="center"
-                justify="center"
+                justify="flex-end"
               >
-                <Grid item xs={3} alignItems="flex-start">
-                  <Typography variant="h5" className={classes.titleNew}>
-                    TC:
-                  </Typography>
+                <Grid item>
+                  <Typography className={classes.blackTypo}>01:23</Typography>
+                </Grid>
+                <Grid item>
+                  <IconButton>
+                    <AccessTimeIcon />
+                  </IconButton>
                 </Grid>
               </Grid>
             </Grid>
