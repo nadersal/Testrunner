@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-      marginBottom: 20,
+      marginBottom: 40,
       height: 40,
     },
     menuButton: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
       //color: "#241e1e",
       backgroundColor: "#c0c0c0",
     },
-    linear: {},
+    linear: { textAlign: "center" },
   })
 );
 
