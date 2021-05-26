@@ -4,6 +4,7 @@ import "./App.css";
 import {
   AppBar,
   Box,
+  Collapse,
   Container,
   createStyles,
   FormControl,
@@ -20,16 +21,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import Header from "./components/Appbar";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import CancelIcon from "@material-ui/icons/Cancel";
-
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import BugReportIcon from "@material-ui/icons/BugReport";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-import PauseCircleOutlineIcon from "@material-ui/icons/PauseCircleOutline";
-import WarningIcon from "@material-ui/icons/Warning";
 import AppbarNew from "./components/progressAppBar";
+import { CollapsibleContainer } from "./components/collapsibleContainer";
+import BottomAppbar from "./components/bottomAppbar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -168,6 +162,34 @@ function App() {
     }
   };
 
+  const onCancelRed = () => {
+    console.log("CancelRed");
+  };
+  const onCancelGrey = () => {
+    console.log("CancelGrey");
+  };
+
+  const onBug = () => {
+    console.log("Bug");
+  };
+
+  const onWarning = () => {
+    console.log("Warning");
+  };
+  const onForward = () => {
+    console.log("Forward");
+  };
+  const onBackward = () => {
+    console.log("Backward");
+  };
+  const onStart = () => {
+    console.log("Start");
+  };
+
+  const onPause = () => {
+    console.log("Pause");
+  };
+
   return (
     <Grid container direction="row" alignItems="center" justify="center">
       <Grid item xl={12}>
@@ -193,16 +215,19 @@ function App() {
                     rowsMax={4}
                     value="Action"
                   />
-                  <Box flexWrap="wrap" justifyContent="flex-start">
-                    <Typography variant="body1" align="left">
-                      hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd
-                    </Typography>
-                  </Box>
+                  <CollapsibleContainer collapseHeight={168}>
+                    <Box flexWrap="wrap" justifyContent="flex-start">
+                      <Typography variant="body1" align="left">
+                        hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn
+                        c,snckjnsdkjcnksd jncknskjs njkfdnsjkn sncnksncksncj
+                        ksnckdsnknd hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn
+                        c,snckjnsdkjcnksd jncknskjs njkfdnsjkn sncnksncksncj
+                        ksnckdsnknd hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn
+                        c,snckjnsdkjcnksd jncknskjs njkfdnsjkn sncnksncksncj
+                        ksnckdsnknd
+                      </Typography>
+                    </Box>
+                  </CollapsibleContainer>
                 </Grid>
                 <Grid item xs={12} lg={4}>
                   <TextField
@@ -212,14 +237,17 @@ function App() {
                     value="Expected Result"
                   />
                   <Box flexWrap="wrap" justifyContent="flex-start">
-                    <Typography variant="body1" align="left">
-                      hnlkcsdnalnsdljkanc knaskcbnjksdncdkjsn c,snckjns
-                      dkjcnksdjn cknskjs njkfdnsjknsncn ksncksncjksnckdsnknd
-                      hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd
-                    </Typography>
+                    <Collapse in={true} timeout="auto" unmountOnExit>
+                      <Typography variant="body1" align="left">
+                        hnlkcsdnalnsdljkanc knaskcbnjksdncdkjsn c,snckjns
+                        dkjcnksdjn cknskjs njkfdnsjknsncn ksncksncjksnckdsnknd
+                        hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn
+                        c,snckjnsdkjcnksd jncknskjs njkfdnsjkn sncnksncksncj
+                        ksnckdsnknd hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn
+                        c,snckjnsdkjcnksd jncknskjs njkfdnsjkn sncnksncksncj
+                        ksnckdsnknd
+                      </Typography>
+                    </Collapse>
                   </Box>
                 </Grid>
                 <Grid item xs={12} lg={4}>
@@ -642,97 +670,17 @@ function App() {
         </Grid>
       </Grid>
       <Grid item xl={12}>
-        <AppBar position="fixed" className={classes.appBar}>
-          <div>
-            <Grid
-              container
-              //justify="center"
-              alignItems="center"
-              //alignContent="center"
-              direction="row"
-              justify="center"
-              spacing={3}
-            >
-              <Grid item>
-                <Grid container>
-                  <Grid item>
-                    <IconButton onClick={onSuccess}>
-                      <CheckCircleIcon className={classes.playButton} />
-                    </IconButton>
-                  </Grid>
-                  <Grid item>
-                    <IconButton>
-                      <CancelIcon
-                        className={classes.cancelButton}
-                        fontSize="large"
-                      />
-                    </IconButton>
-                  </Grid>
-                  <Grid item>
-                    <IconButton>
-                      <WarningIcon
-                        className={classes.warningButton}
-                        fontSize="large"
-                      />
-                    </IconButton>
-                  </Grid>
-                  <Grid item>
-                    <IconButton>
-                      <CancelIcon
-                        className={classes.seconCancelButton}
-                        fontSize="large"
-                      />
-                    </IconButton>
-                  </Grid>
-                  <Grid item>
-                    <IconButton>
-                      <BugReportIcon
-                        /*fontSize="large" */ className={classes.bugButton}
-                      />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </Grid>
-
-              <Grid item>
-                <Grid container>
-                  <Grid item>
-                    <IconButton>
-                      <ChevronLeftIcon
-                        className={classes.blackButton}
-                        //fontSize="large"
-                      />
-                    </IconButton>
-                  </Grid>
-                  <Grid item>
-                    <IconButton>
-                      <ChevronRightIcon
-                        className={classes.blackButton}
-                        //fontSize="large"
-                      />
-                    </IconButton>
-                  </Grid>
-                  <Grid item>
-                    <IconButton>
-                      <PlayCircleOutlineIcon
-                        className={classes.blackButton}
-                        fontSize="large"
-                      />
-                    </IconButton>
-                  </Grid>
-                  <Grid item>
-                    <IconButton>
-                      <PauseCircleOutlineIcon
-                        className={classes.blackButton}
-                        fontSize="large"
-                      />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </div>
-        </AppBar>
+        <BottomAppbar
+          onStepSuccess={onSuccess}
+          onStepCancelRed={onCancelRed}
+          onStepCancelGrey={onCancelGrey}
+          onStepWarning={onWarning}
+          onCreateBug={onBug}
+          onStepForward={onForward}
+          onStepBack={onBackward}
+          onStart={onStart}
+          onPause={onPause}
+        ></BottomAppbar>
       </Grid>
     </Grid>
   );
