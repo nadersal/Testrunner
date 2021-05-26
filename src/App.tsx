@@ -215,7 +215,7 @@ function App() {
                     rowsMax={4}
                     value="Action"
                   />
-                  <CollapsibleContainer collapseHeight={168}>
+                  <CollapsibleContainer collapseHeight={50}>
                     <Box flexWrap="wrap" justifyContent="flex-start">
                       <Typography variant="body1" align="left">
                         hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn

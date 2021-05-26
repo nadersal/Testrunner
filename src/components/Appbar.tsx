@@ -76,24 +76,24 @@ export default function Header(props: { value: number }) {
         </Toolbar>
         <div className={classes.appBarNew}>
           <Grid container direction="row" alignItems="center" justify="center">
-            <Grid item xs={6} alignItems="flex-start">
+            <Grid item xs={8} alignItems="flex-start">
               <Grid
                 container
                 direction="row"
                 alignItems="center"
                 justify="center"
               >
-                <Grid item xs={1}>
+                <Grid item xs={3} md={1}>
                   <Typography variant="h5" className={classes.title}>
                     TC:
                   </Typography>
                 </Grid>
-                <Grid item xs={11} alignContent="flex-start">
+                <Grid item xs={9} md={11} alignContent="flex-start">
                   <LinearWithValueLabel value={props.value} />
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <Grid
                 container
                 direction="row"

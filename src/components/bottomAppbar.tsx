@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
-
+import { useMediaQuery } from "react-responsive";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import BugReportIcon from "@material-ui/icons/BugReport";
@@ -142,26 +142,17 @@ export default function BottomAppbar(props: Props) {
               </Grid>
               <Grid container item xs={2} justify="center">
                 <IconButton onClick={props.onStepCancelRed}>
-                  <CancelIcon
-                    className={classes.cancelButton}
-                    fontSize="large"
-                  />
+                  <CancelIcon className={classes.cancelButton} />
                 </IconButton>
               </Grid>
               <Grid container item xs={2} justify="center">
                 <IconButton onClick={props.onStepWarning}>
-                  <WarningIcon
-                    className={classes.warningButton}
-                    fontSize="large"
-                  />
+                  <WarningIcon className={classes.warningButton} />
                 </IconButton>
               </Grid>
               <Grid container item xs={2} justify="center">
                 <IconButton onClick={props.onStepCancelGrey}>
-                  <CancelIcon
-                    className={classes.secondCancelButton}
-                    fontSize="large"
-                  />
+                  <CancelIcon className={classes.secondCancelButton} />
                 </IconButton>
               </Grid>
               <Grid container item xs={2} justify="center">

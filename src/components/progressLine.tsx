@@ -49,7 +49,7 @@ function LinearProgressWithLabel(
   const classes = useStyles();
   return (
     <Box display="flex" alignItems="center">
-      <Box width="100%" mr={1}>
+      <Box width="100%" mr={1} minWidth={110}>
         <LinearProgress
           variant="determinate"
           {...props}
