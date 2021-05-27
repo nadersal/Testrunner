@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import {
@@ -20,10 +20,17 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import Header from "./components/Appbar";
-import AppbarNew from "./components/progressAppBar";
-import { CollapsibleContainer } from "./components/collapsibleContainer";
+import Appbar from "./components/Appbar";
+import CollapsibleContainer from "./components/collapsibleContainer";
 import BottomAppbar from "./components/bottomAppbar";
+import mockData from "./data/mockdata";
+
+export interface IStepData {
+  action: string;
+  expectedResult: string;
+  actualResult: string;
+  isImportant?: boolean;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,12 +41,13 @@ const useStyles = makeStyles((theme: Theme) =>
     text: {
       padding: theme.spacing(2, 2, 0),
     },
-    paper: {
+    stepsContainer: {
       paddingBottom: 50,
-      marginTop: 150,
-      marginBottom: 150,
+      marginBottom: 75,
       marginRight: "1rem",
       marginLeft: "1rem",
+      overflow: "auto",
+      height: "calc(100% - 242px)",
     },
     list: {
       marginBottom: theme.spacing(2),
@@ -142,544 +150,223 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "4rem",
       height: "4rem",
     },
+    stepNumber: {
+      fontWeight: 600,
+      fontSize: 14,
+    },
+    isImportant: {
+      color: "red",
+      fontSize: 18,
+      fontWeight: 800,
+    },
+    actualStepRow: {
+      backgroundColor: "FloralWhite",
+    },
+    actualResultBox: {
+      backgroundColor: "white",
+    },
   })
 );
 
 function TestRunner() {
   const classes = useStyles();
   const [progress, setProgress] = useState<number>(33);
-
-  const onSuccess = () => {
-    console.log(progress);
-    if (progress === 33) {
-      setProgress(66);
-    } else if (progress === 66) {
-      setProgress(100);
-    } else if (progress === 100) {
-      setProgress(0);
-    } else if (progress === 0) {
-      setProgress(33);
+  const [seconds, setSeconds] = useState<number>(50);
+  const [running, setRunning] = useState<boolean>(false);
+  const [timerObj, setTimerObj] = useState<NodeJS.Timeout>();
+  const [actualStepIndex, setActualStepIndex] = useState<number>(-1);
+  const actualStepRef = useRef<any>();
+  useEffect(() => {
+    if (actualStepRef.current) {
+      actualStepRef.current.scrollIntoView();
     }
+  }, [actualStepRef.current]);
+
+  useEffect(() => {
+    if (running) {
+      setTimeout(() => {
+        setSeconds(seconds + 1);
+      }, 1000);
+      console.log("Seconds: " + seconds);
+    }
+  }, [running, seconds]);
+
+  const onClickSuccess = () => {
+    stepForward();
   };
 
-  const onCancelRed = () => {
-    console.log("CancelRed");
+  const onClickFail = () => {
+    stepForward();
   };
-  const onCancelGrey = () => {
+  const onClickCancelGrey = () => {
     console.log("CancelGrey");
   };
 
-  const onBug = () => {
+  const onClickBug = () => {
     console.log("Bug");
   };
 
-  const onWarning = () => {
+  const onClickWarning = () => {
     console.log("Warning");
   };
-  const onForward = () => {
-    console.log("Forward");
+  const onClickForward = () => {
+    stepForward();
   };
-  const onBackward = () => {
-    console.log("Backward");
-  };
-  const onStart = () => {
-    console.log("Start");
+  const onClickBackward = () => {
+    stepBackward();
   };
 
-  const onPause = () => {
-    console.log("Pause");
+  const stepForward = () => {
+    if (actualStepIndex + 1 <= mockData.length - 1) {
+      setActualStepIndex(actualStepIndex + 1);
+    }
+  };
+
+  const stepBackward = () => {
+    if (actualStepIndex > 0) {
+      setActualStepIndex(actualStepIndex - 1);
+    }
+  };
+
+  const createTestStepRow = (
+    index: number,
+    action: string,
+    expectedResult: string,
+    actualResult: string,
+    isImportant?: boolean
+  ) => {
+    const paperClassName =
+      actualStepIndex !== index
+        ? classes.paperContext
+        : classes.paperContext + " " + classes.actualStepRow;
+
+    return (
+      <Grid
+        container
+        item
+        xs={12}
+        ref={actualStepIndex === index ? actualStepRef : null}
+        alignContent="center"
+        justify="center"
+      >
+        <Paper elevation={3} className={paperClassName}>
+          <Grid container direction="row" alignContent="center" spacing={3}>
+            <Grid item xs={12} lg={1}>
+              <Typography className={classes.stepNumber}> RS </Typography>
+              <Typography className={classes.stepNumber}> #{index} </Typography>
+              {isImportant && (
+                <Typography className={classes.isImportant}> ! </Typography>
+              )}
+            </Grid>
+            <Grid item xs={12} lg={3}>
+              <TextField
+                id="standard-multiline-flexible"
+                multiline
+                rowsMax={4}
+                value="Action"
+              />
+              <CollapsibleContainer collapseHeight={50}>
+                <Box flexWrap="wrap" justifyContent="flex-start">
+                  <Typography variant="body1" align="left">
+                    {action}
+                  </Typography>
+                </Box>
+              </CollapsibleContainer>
+            </Grid>
+            <Grid item xs={12} lg={4}>
+              <TextField
+                id="standard-multiline-flexible"
+                multiline
+                rowsMax={4}
+                value="Expected Result"
+              />
+              <Box flexWrap="wrap" justifyContent="flex-start">
+                <Collapse in={true} timeout="auto" unmountOnExit>
+                  <Typography variant="body1" align="left">
+                    {expectedResult}
+                  </Typography>
+                </Collapse>
+              </Box>
+            </Grid>
+            <Grid item xs={12} lg={4}>
+              <Grid
+                container
+                direction="column"
+                alignContent="flex-start"
+                spacing={1}
+              >
+                <Grid item xs={12}>
+                  <TextField
+                    id="standard-multiline-flexible"
+                    multiline
+                    rowsMax={4}
+                    value="Actual result"
+                  />
+                </Grid>
+                <Grid container xs={12} spacing={2}>
+                  <Grid item xs={12}>
+                    <Box flex={1}>
+                      <TextField
+                        fullWidth
+                        id="standard-multiline-flexible"
+                        multiline
+                        //rowsMax={4}
+                        rows={5}
+                        variant="outlined"
+                        className={classes.actualResultBox}
+                      >
+                        {actualResult}
+                      </TextField>
+                      {/* />*  </FormControl> */}
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Grid>
+    );
   };
 
   return (
-    <Grid container direction="row" alignItems="center" justify="center">
+    <Grid
+      container
+      direction="row"
+      alignItems="center"
+      justify="center"
+      className={classes.root}
+    >
       <Grid item xl={12}>
-        <Header value={progress} />
+        <Appbar
+          actualStep={0}
+          totalSteps={mockData.length}
+          secondsPassed={seconds}
+        />
       </Grid>
-      <Grid item xl={12} xs={12} className={classes.paperRoot} justify="center">
-        <Grid
-          container
-          xs={12}
-          direction="row"
-          alignItems="center"
-          justify="center"
-          className={classes.paper}
-          spacing={3}
-        >
-          <Grid item xs={12} alignContent="center" justify="center">
-            <Paper elevation={3} className={classes.paperContext}>
-              <Grid container direction="row" alignContent="center" spacing={3}>
-                <Grid item xs={12} lg={4}>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rowsMax={4}
-                    value="Action"
-                  />
-                  <CollapsibleContainer collapseHeight={50}>
-                    <Box flexWrap="wrap" justifyContent="flex-start">
-                      <Typography variant="body1" align="left">
-                        hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn
-                        c,snckjnsdkjcnksd jncknskjs njkfdnsjkn sncnksncksncj
-                        ksnckdsnknd hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn
-                        c,snckjnsdkjcnksd jncknskjs njkfdnsjkn sncnksncksncj
-                        ksnckdsnknd hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn
-                        c,snckjnsdkjcnksd jncknskjs njkfdnsjkn sncnksncksncj
-                        ksnckdsnknd
-                      </Typography>
-                    </Box>
-                  </CollapsibleContainer>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rowsMax={4}
-                    value="Expected Result"
-                  />
-                  <Box flexWrap="wrap" justifyContent="flex-start">
-                    <Collapse in={true} timeout="auto" unmountOnExit>
-                      <Typography variant="body1" align="left">
-                        hnlkcsdnalnsdljkanc knaskcbnjksdncdkjsn c,snckjns
-                        dkjcnksdjn cknskjs njkfdnsjknsncn ksncksncjksnckdsnknd
-                        hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn
-                        c,snckjnsdkjcnksd jncknskjs njkfdnsjkn sncnksncksncj
-                        ksnckdsnknd hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn
-                        c,snckjnsdkjcnksd jncknskjs njkfdnsjkn sncnksncksncj
-                        ksnckdsnknd
-                      </Typography>
-                    </Collapse>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <Grid
-                    container
-                    direction="column"
-                    alignContent="flex-start"
-                    spacing={1}
-                  >
-                    <Grid item xs={12}>
-                      <TextField
-                        id="standard-multiline-flexible"
-                        multiline
-                        rowsMax={4}
-                        value="Actual result"
-                      />
-                    </Grid>
-                    <Grid container xs={12} spacing={2}>
-                      <Grid item xs={12}>
-                        <Box flex={1}>
-                          <TextField
-                            fullWidth
-                            id="standard-multiline-flexible"
-                            multiline
-                            //rowsMax={4}
-                            rows={5}
-                            variant="outlined"
-                          >
-                            {/* />*/}
-                          </TextField>
-                          {/* />*  </FormControl> */}
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
-          <Grid item xs={12}>
-            <Paper elevation={3} className={classes.paperContext}>
-              <Grid container direction="row" alignContent="center" spacing={3}>
-                <Grid item xs={12} lg={4}>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rowsMax={4}
-                    value="Action"
-                  />
-                  <Box flexWrap="wrap" justifyContent="flex-start">
-                    <Typography variant="body1" align="left">
-                      hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rowsMax={4}
-                    value="Expected Result"
-                  />
-                  <Box flexWrap="wrap" justifyContent="flex-start">
-                    <Typography variant="body1" align="left">
-                      hnlkcsdnalnsdljkanc knaskcbnjksdncdkjsn c,snckjns
-                      dkjcnksdjn cknskjs njkfdnsjknsncn ksncksncjksnckdsnknd
-                      hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <Grid
-                    container
-                    direction="column"
-                    alignContent="flex-start"
-                    spacing={1}
-                  >
-                    <Grid item xs={12}>
-                      <TextField
-                        id="standard-multiline-flexible"
-                        multiline
-                        rowsMax={4}
-                        value="Actual result"
-                      />
-                    </Grid>
-                    <Grid container xs={12} spacing={2}>
-                      <Grid item xs={12}>
-                        <Box flex={1}>
-                          <TextField
-                            fullWidth
-                            id="standard-multiline-flexible"
-                            multiline
-                            //rowsMax={4}
-                            rows={5}
-                            variant="outlined"
-                          >
-                            {/* />*/}
-                          </TextField>
-                          {/* />*  </FormControl> */}
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
-          <Grid item xs={12}>
-            <Paper elevation={3} className={classes.paperContext}>
-              <Grid container direction="row" alignContent="center" spacing={3}>
-                <Grid item xs={12} lg={4}>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rowsMax={4}
-                    value="Action"
-                  />
-                  <Box flexWrap="wrap" justifyContent="flex-start">
-                    <Typography variant="body1" align="left">
-                      hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rowsMax={4}
-                    value="Expected Result"
-                  />
-                  <Box flexWrap="wrap" justifyContent="flex-start">
-                    <Typography variant="body1" align="left">
-                      hnlkcsdnalnsdljkanc knaskcbnjksdncdkjsn c,snckjns
-                      dkjcnksdjn cknskjs njkfdnsjknsncn ksncksncjksnckdsnknd
-                      hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <Grid
-                    container
-                    direction="column"
-                    alignContent="flex-start"
-                    spacing={1}
-                  >
-                    <Grid item xs={12}>
-                      <TextField
-                        id="standard-multiline-flexible"
-                        multiline
-                        rowsMax={4}
-                        value="Actual result"
-                      />
-                    </Grid>
-                    <Grid container xs={12} spacing={2}>
-                      <Grid item xs={12}>
-                        <Box flex={1}>
-                          <TextField
-                            fullWidth
-                            id="standard-multiline-flexible"
-                            multiline
-                            //rowsMax={4}
-                            rows={5}
-                            variant="outlined"
-                          >
-                            {/* />*/}
-                          </TextField>
-                          {/* />*  </FormControl> */}
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
-          <Grid item xs={12}>
-            <Paper elevation={3} className={classes.paperContext}>
-              <Grid container direction="row" alignContent="center" spacing={3}>
-                <Grid item xs={12} lg={4}>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rowsMax={4}
-                    value="Action"
-                  />
-                  <Box flexWrap="wrap" justifyContent="flex-start">
-                    <Typography variant="body1" align="left">
-                      hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rowsMax={4}
-                    value="Expected Result"
-                  />
-                  <Box flexWrap="wrap" justifyContent="flex-start">
-                    <Typography variant="body1" align="left">
-                      hnlkcsdnalnsdljkanc knaskcbnjksdncdkjsn c,snckjns
-                      dkjcnksdjn cknskjs njkfdnsjknsncn ksncksncjksnckdsnknd
-                      hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <Grid
-                    container
-                    direction="column"
-                    alignContent="flex-start"
-                    spacing={1}
-                  >
-                    <Grid item xs={12}>
-                      <TextField
-                        id="standard-multiline-flexible"
-                        multiline
-                        rowsMax={4}
-                        value="Actual result"
-                      />
-                    </Grid>
-                    <Grid container xs={12} spacing={2}>
-                      <Grid item xs={12}>
-                        <Box flex={1}>
-                          <TextField
-                            fullWidth
-                            id="standard-multiline-flexible"
-                            multiline
-                            //rowsMax={4}
-                            rows={5}
-                            variant="outlined"
-                          >
-                            {/* />*/}
-                          </TextField>
-                          {/* />*  </FormControl> */}
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
-          <Grid item xs={12}>
-            <Paper elevation={3} className={classes.paperContext}>
-              <Grid container direction="row" alignContent="center" spacing={3}>
-                <Grid item xs={12} lg={4}>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rowsMax={4}
-                    value="Action"
-                  />
-                  <Box flexWrap="wrap" justifyContent="flex-start">
-                    <Typography variant="body1" align="left">
-                      hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rowsMax={4}
-                    value="Expected Result"
-                  />
-                  <Box flexWrap="wrap" justifyContent="flex-start">
-                    <Typography variant="body1" align="left">
-                      hnlkcsdnalnsdljkanc knaskcbnjksdncdkjsn c,snckjns
-                      dkjcnksdjn cknskjs njkfdnsjknsncn ksncksncjksnckdsnknd
-                      hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <Grid
-                    container
-                    direction="column"
-                    alignContent="flex-start"
-                    spacing={1}
-                  >
-                    <Grid item xs={12}>
-                      <TextField
-                        id="standard-multiline-flexible"
-                        multiline
-                        rowsMax={4}
-                        value="Actual result"
-                      />
-                    </Grid>
-                    <Grid container xs={12} spacing={2}>
-                      <Grid item xs={12}>
-                        <Box flex={1}>
-                          <TextField
-                            fullWidth
-                            id="standard-multiline-flexible"
-                            multiline
-                            //rowsMax={4}
-                            rows={5}
-                            variant="outlined"
-                          >
-                            {/* />*/}
-                          </TextField>
-                          {/* />*  </FormControl> */}
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
-          <Grid item xs={12}>
-            <Paper elevation={3} className={classes.paperContext}>
-              <Grid container direction="row" alignContent="center" spacing={3}>
-                <Grid item xs={12} lg={4}>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rowsMax={4}
-                    value="Action"
-                  />
-                  <Box flexWrap="wrap" justifyContent="flex-start">
-                    <Typography variant="body1" align="left">
-                      hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rowsMax={4}
-                    value="Expected Result"
-                  />
-                  <Box flexWrap="wrap" justifyContent="flex-start">
-                    <Typography variant="body1" align="left">
-                      hnlkcsdnalnsdljkanc knaskcbnjksdncdkjsn c,snckjns
-                      dkjcnksdjn cknskjs njkfdnsjknsncn ksncksncjksnckdsnknd
-                      hnlkcsdn alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd hnlkcsdn
-                      alnsdljkanckn askcbnjksdncdkjsn c,snckjnsdkjcnksd
-                      jncknskjs njkfdnsjkn sncnksncksncj ksnckdsnknd
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <Grid
-                    container
-                    direction="column"
-                    alignContent="flex-start"
-                    spacing={1}
-                  >
-                    <Grid item xs={12}>
-                      <TextField
-                        id="standard-multiline-flexible"
-                        multiline
-                        rowsMax={4}
-                        value="Actual result"
-                      />
-                    </Grid>
-                    <Grid container xs={12} spacing={2}>
-                      <Grid item xs={12}>
-                        <Box flex={1}>
-                          <TextField
-                            fullWidth
-                            id="standard-multiline-flexible"
-                            multiline
-                            //rowsMax={4}
-                            rows={5}
-                            variant="outlined"
-                          >
-                            {/* />*/}
-                          </TextField>
-                          {/* />*  </FormControl> */}
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
-        </Grid>
+      <Grid item className={classes.stepsContainer}>
+        {mockData.map((row, index) => {
+          return createTestStepRow(
+            index,
+            row.action,
+            row.expectedResult,
+            row.actualResult,
+            row.isImportant
+          );
+        })}
       </Grid>
       <Grid item xl={12}>
         <BottomAppbar
-          onStepSuccess={onSuccess}
-          onStepCancelRed={onCancelRed}
-          onStepCancelGrey={onCancelGrey}
-          onStepWarning={onWarning}
-          onCreateBug={onBug}
-          onStepForward={onForward}
-          onStepBack={onBackward}
-          onStart={onStart}
-          onPause={onPause}
+          isRunning={running}
+          onStepSuccess={onClickSuccess}
+          onStepCancelRed={onClickFail}
+          onStepCancelGrey={onClickCancelGrey}
+          onStepWarning={onClickWarning}
+          onCreateBug={onClickBug}
+          onStepForward={onClickForward}
+          onStepBack={onClickBackward}
+          onStart={() => setRunning(true)}
+          onPause={() => setRunning(false)}
         ></BottomAppbar>
       </Grid>
     </Grid>

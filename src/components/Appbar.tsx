@@ -8,13 +8,14 @@ import IconButton from "@material-ui/core/IconButton";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import LinearWithValueLabel from "./progressLine";
+import { LinearProgressWithLabel } from "./linearProgressWithLabel";
 import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      height: 154,
     },
     regular: {
       minHeight: "20px",
@@ -56,7 +57,23 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Header(props: { value: number }) {
+const formatSeconds = (seconds: number): string => {
+  const _seconds = seconds % 60;
+  const _minutes = Math.floor(seconds / 60);
+
+  const _secondsStr = _seconds > 9 ? _seconds : "0" + _seconds;
+  const _minutesStr = _minutes > 9 ? _minutes : "0" + _minutes;
+
+  return _minutesStr + ":" + _secondsStr;
+};
+
+interface Props {
+  totalSteps: number;
+  actualStep: number;
+  secondsPassed: number;
+}
+
+export default function Header(props: Props) {
   const classes = useStyles();
 
   return (
@@ -89,7 +106,10 @@ export default function Header(props: { value: number }) {
                   </Typography>
                 </Grid>
                 <Grid item xs={9} md={11} alignContent="flex-start">
-                  <LinearWithValueLabel value={props.value} />
+                  <LinearProgressWithLabel
+                    actualStep={props.actualStep}
+                    totalSteps={props.totalSteps}
+                  />
                 </Grid>
               </Grid>
             </Grid>
@@ -101,7 +121,7 @@ export default function Header(props: { value: number }) {
                 justify="flex-end"
               >
                 <Grid item>
-                  <Typography>01:23</Typography>
+                  <Typography>{formatSeconds(props.secondsPassed)}</Typography>
                 </Grid>
                 <Grid item>
                   <IconButton>

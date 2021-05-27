@@ -21,6 +21,7 @@ import BugReportIcon from "@material-ui/icons/BugReport";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import PauseCircleOutlineIcon from "@material-ui/icons/PauseCircleOutline";
 import WarningIcon from "@material-ui/icons/Warning";
+import { PeopleTwoTone } from "@material-ui/icons";
 
 interface Props {
   onStepSuccess: () => void;
@@ -32,6 +33,7 @@ interface Props {
   onStepBack: () => void;
   onStart: () => void;
   onPause: () => void;
+  isRunning: boolean;
 }
 const BottomAppbar = (props: Props) => {
   const theme = useTheme();
@@ -55,6 +57,7 @@ const BottomAppbar = (props: Props) => {
         bottom: 0,
         color: "grey",
         backgroundColor: "white",
+        height: 88,
       },
       grow: {
         flexGrow: 1,
@@ -75,13 +78,25 @@ const BottomAppbar = (props: Props) => {
         position: "sticky",
         backgroundColor: "#DFDCDB",
       },
-      blackButton: {
-        color: "black",
+      stepButtons: {
+        color: props.isRunning ? "black" : "lightGrey",
+        width: matches ? "3rem" : "4rem",
+        height: matches ? "3rem" : "4rem",
+      },
+      stopButton: {
+        color: props.isRunning ? "black" : "lightGrey",
+        width: matches ? "3rem" : "4rem",
+        height: matches ? "3rem" : "4rem",
+      },
+      startButton: {
+        color: !props.isRunning ? "black" : "lightGrey",
         width: matches ? "3rem" : "4rem",
         height: matches ? "3rem" : "4rem",
       },
       bugButton: {
-        color: "#808080",
+        color: props.isRunning
+          ? "rgba(150,150,150,1)"
+          : "rgba(150,150,150,0.3)",
         width: matches ? "3rem" : "4rem",
         height: matches ? "3rem" : "4rem",
       },
@@ -91,7 +106,7 @@ const BottomAppbar = (props: Props) => {
         height: matches ? "3rem" : "4rem",
       },
       playButton: {
-        color: "green",
+        color: props.isRunning ? "rgba(0,180,0,1)" : "rgba(0,180,0,0.3)",
         width: matches ? "3rem" : "4rem",
         height: matches ? "3rem" : "4rem",
       },
@@ -99,17 +114,19 @@ const BottomAppbar = (props: Props) => {
         width: "95%",
       },
       cancelButton: {
-        color: "red",
+        color: props.isRunning ? "rgba(180,0,0,1)" : "rgba(180,0,0,0.3)",
         width: matches ? "3rem" : "4rem",
         height: matches ? "3rem" : "4rem",
       },
       warningButton: {
-        color: "orange",
+        color: props.isRunning ? "rgba(255,128,0,1)" : "rgba(255,128,0,0.3)",
         width: matches ? "3rem" : "4rem",
         height: matches ? "3rem" : "4rem",
       },
       secondCancelButton: {
-        color: "#B0B0B0",
+        color: props.isRunning
+          ? "rgba(200,200,200,1)"
+          : "rgba(200,200,200,0.3)",
         width: matches ? "3rem" : "4rem",
         height: matches ? "3rem" : "4rem",
       },
@@ -137,28 +154,63 @@ const BottomAppbar = (props: Props) => {
         >
           <Grid item sm={12} md={6} style={{ width: "100%" }}>
             <Box display="flex" justifyContent="space-around">
-              <Box className={classes.upperIconBoxWidth}>
-                <IconButton onClick={props.onStepSuccess}>
+              <Box
+                display="flex"
+                className={classes.upperIconBoxWidth}
+                justifyContent="center"
+              >
+                <IconButton
+                  onClick={props.onStepSuccess}
+                  disabled={!props.isRunning}
+                >
                   <CheckCircleIcon className={classes.playButton} />
                 </IconButton>
               </Box>
-              <Box className={classes.upperIconBoxWidth}>
-                <IconButton onClick={props.onStepCancelRed}>
+              <Box
+                display="flex"
+                className={classes.upperIconBoxWidth}
+                justifyContent="center"
+              >
+                <IconButton
+                  onClick={props.onStepCancelRed}
+                  disabled={!props.isRunning}
+                >
                   <CancelIcon className={classes.cancelButton} />
                 </IconButton>
               </Box>
-              <Box className={classes.upperIconBoxWidth}>
-                <IconButton onClick={props.onStepWarning}>
+              <Box
+                display="flex"
+                className={classes.upperIconBoxWidth}
+                justifyContent="center"
+              >
+                <IconButton
+                  onClick={props.onStepWarning}
+                  disabled={!props.isRunning}
+                >
                   <WarningIcon className={classes.warningButton} />
                 </IconButton>
               </Box>
-              <Box className={classes.upperIconBoxWidth}>
-                <IconButton onClick={props.onStepCancelGrey}>
+              <Box
+                display="flex"
+                className={classes.upperIconBoxWidth}
+                justifyContent="center"
+              >
+                <IconButton
+                  onClick={props.onStepCancelGrey}
+                  disabled={!props.isRunning}
+                >
                   <CancelIcon className={classes.secondCancelButton} />
                 </IconButton>
               </Box>
-              <Box className={classes.upperIconBoxWidth}>
-                <IconButton onClick={props.onCreateBug}>
+              <Box
+                className={classes.upperIconBoxWidth}
+                display="flex"
+                justifyContent="center"
+              >
+                <IconButton
+                  onClick={props.onCreateBug}
+                  disabled={!props.isRunning}
+                >
                   <BugReportIcon
                     /*fontSize="large" */ className={classes.bugButton}
                   />
@@ -169,34 +221,56 @@ const BottomAppbar = (props: Props) => {
 
           <Grid item sm={12} md={6} style={{ width: "100%" }}>
             <Box display="flex" justifyContent="space-around">
-              <Box className={classes.lowerIconBoxWidth}>
-                <IconButton onClick={props.onStepBack}>
+              <Box
+                className={classes.lowerIconBoxWidth}
+                display="flex"
+                justifyContent="center"
+              >
+                <IconButton
+                  onClick={props.onStepBack}
+                  disabled={!props.isRunning}
+                >
                   <ChevronLeftIcon
-                    className={classes.blackButton}
+                    className={classes.stepButtons}
                     //fontSize="large"
                   />
                 </IconButton>
               </Box>
-              <Box className={classes.lowerIconBoxWidth}>
-                <IconButton onClick={props.onStepForward}>
+              <Box
+                className={classes.lowerIconBoxWidth}
+                display="flex"
+                justifyContent="center"
+              >
+                <IconButton
+                  onClick={props.onStepForward}
+                  disabled={!props.isRunning}
+                >
                   <ChevronRightIcon
-                    className={classes.blackButton}
+                    className={classes.stepButtons}
                     //fontSize="large"
                   />
                 </IconButton>
               </Box>
-              <Box className={classes.lowerIconBoxWidth}>
-                <IconButton onClick={props.onStart}>
+              <Box
+                className={classes.lowerIconBoxWidth}
+                display="flex"
+                justifyContent="center"
+              >
+                <IconButton onClick={props.onStart} disabled={props.isRunning}>
                   <PlayCircleOutlineIcon
-                    className={classes.blackButton}
+                    className={classes.startButton}
                     //fontSize="large"
                   />
                 </IconButton>
               </Box>
-              <Box className={classes.lowerIconBoxWidth}>
-                <IconButton onClick={props.onPause}>
+              <Box
+                className={classes.lowerIconBoxWidth}
+                display="flex"
+                justifyContent="center"
+              >
+                <IconButton onClick={props.onPause} disabled={!props.isRunning}>
                   <PauseCircleOutlineIcon
-                    className={classes.blackButton}
+                    className={classes.stopButton}
                     //fontSize="large"
                   />
                 </IconButton>

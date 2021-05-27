@@ -68,3 +68,5 @@ export const CollapsibleContainer = (props: Props) => {
     </div>
   );
 };
+
+export default CollapsibleContainer;
