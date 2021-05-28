@@ -8,14 +8,14 @@ import IconButton from "@material-ui/core/IconButton";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import { LinearProgressWithLabel } from "./linearProgressWithLabel";
+import { LinearProgressWithLabel } from "./TestRunner/components/LinearProgressWithLabel";
 import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-      height: 154,
+      height: 148,
     },
     regular: {
       minHeight: "20px",

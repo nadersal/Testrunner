@@ -3,6 +3,7 @@ import Typography, {
   TypographyProps,
   TypographyTypeMap,
 } from "@material-ui/core/Typography";
+import { CSSProperties } from "@material-ui/styles";
 import React, { useEffect, useRef, useState } from "react";
 import { renderIntoDocument } from "react-dom/test-utils";
 
@@ -13,26 +14,22 @@ interface Props {
   collapsed?: boolean;
   children?: React.ReactNode;
 }
-export const CollapsibleContainer = (props: Props) => {
-  const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-      root: {
-        flexGrow: 1,
-      },
-      containerHeight: {
-        height: _collapseHeight,
-        overflow: "hidden",
-      },
-      button: {
-        color: "blue",
-        "&:hover": {
-          cursor: "pointer",
-          //textDecoration: "underline",
-        },
-      },
-    })
-  );
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    button: {
+      color: "blue",
+      "&:hover": {
+        cursor: "pointer",
+        //textDecoration: "underline",
+      },
+    },
+  })
+);
+export const CollapsibleContainer = (props: Props) => {
   const _showMoreText = props.showMoreText ? props.showMoreText : "more ...";
   const _showLessText = props.showLessText ? props.showLessText : "less";
   const _collapseHeight = props.collapseHeight ? props.collapseHeight : 50;
@@ -59,9 +56,14 @@ export const CollapsibleContainer = (props: Props) => {
     );
   };
 
+  const heightStyle = {
+    height: _collapseHeight,
+    overflow: "hidden",
+  };
+
   return (
     <div>
-      <div className={collapsed ? classes.containerHeight : ""}>
+      <div style={collapsed ? heightStyle : {}}>
         <div ref={contentRef}>{props.children}</div>
       </div>
       {contentHeight > _collapseHeight ? renderButton() : null}

@@ -35,114 +35,117 @@ interface Props {
   onPause: () => void;
   isRunning: boolean;
 }
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    text: {
+      padding: theme.spacing(2, 2, 0),
+    },
+    paper: {
+      paddingBottom: 50,
+    },
+    list: {
+      marginBottom: theme.spacing(2),
+    },
+    subheader: {
+      backgroundColor: theme.palette.background.paper,
+    },
+
+    grow: {
+      flexGrow: 1,
+    },
+    fabButton: {
+      position: "absolute",
+      zIndex: 1,
+      top: -30,
+      left: 0,
+      right: 0,
+      margin: "0 auto",
+    },
+
+    customizeToolbar: {
+      minHeight: 36,
+    },
+    paperBar: {
+      position: "sticky",
+      backgroundColor: "#DFDCDB",
+    },
+
+    paperWidth: {
+      width: "95%",
+    },
+
+    upperIconBoxWidth: {
+      width: "20%",
+    },
+    lowerIconBoxWidth: {
+      width: "25%",
+    },
+  })
+);
 const BottomAppbar = (props: Props) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
-  const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-      text: {
-        padding: theme.spacing(2, 2, 0),
-      },
-      paper: {
-        paddingBottom: 50,
-      },
-      list: {
-        marginBottom: theme.spacing(2),
-      },
-      subheader: {
-        backgroundColor: theme.palette.background.paper,
-      },
-      appBar: {
-        top: "auto",
-        bottom: 0,
-        color: "grey",
-        backgroundColor: "white",
-        height: 88,
-      },
-      grow: {
-        flexGrow: 1,
-      },
-      fabButton: {
-        position: "absolute",
-        zIndex: 1,
-        top: -30,
-        left: 0,
-        right: 0,
-        margin: "0 auto",
-      },
 
-      customizeToolbar: {
-        minHeight: 36,
-      },
-      paperBar: {
-        position: "sticky",
-        backgroundColor: "#DFDCDB",
-      },
-      stepButtons: {
-        color: props.isRunning ? "black" : "lightGrey",
-        width: matches ? "3rem" : "4rem",
-        height: matches ? "3rem" : "4rem",
-      },
-      stopButton: {
-        color: props.isRunning ? "black" : "lightGrey",
-        width: matches ? "3rem" : "4rem",
-        height: matches ? "3rem" : "4rem",
-      },
-      startButton: {
-        color: !props.isRunning ? "black" : "lightGrey",
-        width: matches ? "3rem" : "4rem",
-        height: matches ? "3rem" : "4rem",
-      },
-      bugButton: {
-        color: props.isRunning
-          ? "rgba(150,150,150,1)"
-          : "rgba(150,150,150,0.3)",
-        width: matches ? "3rem" : "4rem",
-        height: matches ? "3rem" : "4rem",
-      },
-      runnerButton: {
-        textAlign: "center",
-        width: matches ? "3rem" : "4rem",
-        height: matches ? "3rem" : "4rem",
-      },
-      playButton: {
-        color: props.isRunning ? "rgba(0,180,0,1)" : "rgba(0,180,0,0.3)",
-        width: matches ? "3rem" : "4rem",
-        height: matches ? "3rem" : "4rem",
-      },
-      paperWidth: {
-        width: "95%",
-      },
-      cancelButton: {
-        color: props.isRunning ? "rgba(180,0,0,1)" : "rgba(180,0,0,0.3)",
-        width: matches ? "3rem" : "4rem",
-        height: matches ? "3rem" : "4rem",
-      },
-      warningButton: {
-        color: props.isRunning ? "rgba(255,128,0,1)" : "rgba(255,128,0,0.3)",
-        width: matches ? "3rem" : "4rem",
-        height: matches ? "3rem" : "4rem",
-      },
-      secondCancelButton: {
-        color: props.isRunning
-          ? "rgba(200,200,200,1)"
-          : "rgba(200,200,200,0.3)",
-        width: matches ? "3rem" : "4rem",
-        height: matches ? "3rem" : "4rem",
-      },
-      upperIconBoxWidth: {
-        width: "20%",
-      },
-      lowerIconBoxWidth: {
-        width: "25%",
-      },
-    })
-  );
   // const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const classes = useStyles();
+
+  const cancelButtonStyle = {
+    color: props.isRunning ? "rgba(180,0,0,1)" : "rgba(180,0,0,0.3)",
+    width: matches ? "3rem" : "4rem",
+    height: matches ? "3rem" : "4rem",
+  };
+  const warningButtonStyle = {
+    color: props.isRunning ? "rgba(255,128,0,1)" : "rgba(255,128,0,0.3)",
+    width: matches ? "3rem" : "4rem",
+    height: matches ? "3rem" : "4rem",
+  };
+  const secondCancelButtonStyle = {
+    color: props.isRunning ? "rgba(200,200,200,1)" : "rgba(200,200,200,0.3)",
+    width: matches ? "3rem" : "4rem",
+    height: matches ? "3rem" : "4rem",
+  };
+  const stepButtonsStyle = {
+    color: props.isRunning ? "black" : "lightGrey",
+    width: matches ? "3rem" : "4rem",
+    height: matches ? "3rem" : "4rem",
+  };
+  const stopButtonStyle = {
+    color: props.isRunning ? "black" : "lightGrey",
+    width: matches ? "3rem" : "4rem",
+    height: matches ? "3rem" : "4rem",
+  };
+  const startButtonStyle = {
+    color: !props.isRunning ? "black" : "lightGrey",
+    width: matches ? "3rem" : "4rem",
+    height: matches ? "3rem" : "4rem",
+  };
+  const bugButtonStyle = {
+    color: props.isRunning ? "rgba(150,150,150,1)" : "rgba(150,150,150,0.3)",
+    width: matches ? "3rem" : "4rem",
+    height: matches ? "3rem" : "4rem",
+  };
+  const runnerButtonStyle = {
+    textAlign: "center",
+    width: matches ? "3rem" : "4rem",
+    height: matches ? "3rem" : "4rem",
+  };
+  const playButtonStyle = {
+    color: props.isRunning ? "rgba(0,180,0,1)" : "rgba(0,180,0,0.3)",
+    width: matches ? "3rem" : "4rem",
+    height: matches ? "3rem" : "4rem",
+  };
+
+  const buttonBarStyle = {
+    top: "auto",
+    bottom: 0,
+    color: "grey",
+    backgroundColor: "white",
+    height: matches ? 144 : 88,
+  };
   return (
-    <AppBar position="fixed" className={classes.appBar}>
+    <AppBar position="fixed" style={buttonBarStyle}>
       <div>
         <Grid
           container
@@ -163,7 +166,7 @@ const BottomAppbar = (props: Props) => {
                   onClick={props.onStepSuccess}
                   disabled={!props.isRunning}
                 >
-                  <CheckCircleIcon className={classes.playButton} />
+                  <CheckCircleIcon style={playButtonStyle} />
                 </IconButton>
               </Box>
               <Box
@@ -175,7 +178,7 @@ const BottomAppbar = (props: Props) => {
                   onClick={props.onStepCancelRed}
                   disabled={!props.isRunning}
                 >
-                  <CancelIcon className={classes.cancelButton} />
+                  <CancelIcon style={cancelButtonStyle} />
                 </IconButton>
               </Box>
               <Box
@@ -187,7 +190,7 @@ const BottomAppbar = (props: Props) => {
                   onClick={props.onStepWarning}
                   disabled={!props.isRunning}
                 >
-                  <WarningIcon className={classes.warningButton} />
+                  <WarningIcon style={warningButtonStyle} />
                 </IconButton>
               </Box>
               <Box
@@ -199,7 +202,7 @@ const BottomAppbar = (props: Props) => {
                   onClick={props.onStepCancelGrey}
                   disabled={!props.isRunning}
                 >
-                  <CancelIcon className={classes.secondCancelButton} />
+                  <CancelIcon style={secondCancelButtonStyle} />
                 </IconButton>
               </Box>
               <Box
@@ -211,9 +214,7 @@ const BottomAppbar = (props: Props) => {
                   onClick={props.onCreateBug}
                   disabled={!props.isRunning}
                 >
-                  <BugReportIcon
-                    /*fontSize="large" */ className={classes.bugButton}
-                  />
+                  <BugReportIcon /*fontSize="large" */ style={bugButtonStyle} />
                 </IconButton>
               </Box>
             </Box>
@@ -231,7 +232,7 @@ const BottomAppbar = (props: Props) => {
                   disabled={!props.isRunning}
                 >
                   <ChevronLeftIcon
-                    className={classes.stepButtons}
+                    style={stepButtonsStyle}
                     //fontSize="large"
                   />
                 </IconButton>
@@ -246,7 +247,7 @@ const BottomAppbar = (props: Props) => {
                   disabled={!props.isRunning}
                 >
                   <ChevronRightIcon
-                    className={classes.stepButtons}
+                    style={stepButtonsStyle}
                     //fontSize="large"
                   />
                 </IconButton>
@@ -258,7 +259,7 @@ const BottomAppbar = (props: Props) => {
               >
                 <IconButton onClick={props.onStart} disabled={props.isRunning}>
                   <PlayCircleOutlineIcon
-                    className={classes.startButton}
+                    style={startButtonStyle}
                     //fontSize="large"
                   />
                 </IconButton>
@@ -270,7 +271,7 @@ const BottomAppbar = (props: Props) => {
               >
                 <IconButton onClick={props.onPause} disabled={!props.isRunning}>
                   <PauseCircleOutlineIcon
-                    className={classes.stopButton}
+                    style={stopButtonStyle}
                     //fontSize="large"
                   />
                 </IconButton>
