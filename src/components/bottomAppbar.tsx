@@ -142,145 +142,159 @@ const BottomAppbar = (props: Props) => {
     bottom: 0,
     color: "grey",
     backgroundColor: "white",
+  };
+
+  const rootStyle = {
     height: matches ? 144 : 88,
   };
-  return (
-    <AppBar position="fixed" style={buttonBarStyle}>
-      <div>
-        <Grid
-          container
-          //justify="center"
-          alignItems="center"
-          //alignContent="center"
-          direction="row"
-          justify="center"
-        >
-          <Grid item sm={12} md={6} style={{ width: "100%" }}>
-            <Box display="flex" justifyContent="space-around">
-              <Box
-                display="flex"
-                className={classes.upperIconBoxWidth}
-                justifyContent="center"
-              >
-                <IconButton
-                  onClick={props.onStepSuccess}
-                  disabled={!props.isRunning}
-                >
-                  <CheckCircleIcon style={playButtonStyle} />
-                </IconButton>
-              </Box>
-              <Box
-                display="flex"
-                className={classes.upperIconBoxWidth}
-                justifyContent="center"
-              >
-                <IconButton
-                  onClick={props.onStepCancelRed}
-                  disabled={!props.isRunning}
-                >
-                  <CancelIcon style={cancelButtonStyle} />
-                </IconButton>
-              </Box>
-              <Box
-                display="flex"
-                className={classes.upperIconBoxWidth}
-                justifyContent="center"
-              >
-                <IconButton
-                  onClick={props.onStepWarning}
-                  disabled={!props.isRunning}
-                >
-                  <WarningIcon style={warningButtonStyle} />
-                </IconButton>
-              </Box>
-              <Box
-                display="flex"
-                className={classes.upperIconBoxWidth}
-                justifyContent="center"
-              >
-                <IconButton
-                  onClick={props.onStepCancelGrey}
-                  disabled={!props.isRunning}
-                >
-                  <CancelIcon style={secondCancelButtonStyle} />
-                </IconButton>
-              </Box>
-              <Box
-                className={classes.upperIconBoxWidth}
-                display="flex"
-                justifyContent="center"
-              >
-                <IconButton
-                  onClick={props.onCreateBug}
-                  disabled={!props.isRunning}
-                >
-                  <BugReportIcon /*fontSize="large" */ style={bugButtonStyle} />
-                </IconButton>
-              </Box>
-            </Box>
-          </Grid>
 
-          <Grid item sm={12} md={6} style={{ width: "100%" }}>
-            <Box display="flex" justifyContent="space-around">
-              <Box
-                className={classes.lowerIconBoxWidth}
-                display="flex"
-                justifyContent="center"
-              >
-                <IconButton
-                  onClick={props.onStepBack}
-                  disabled={!props.isRunning}
+  return (
+    <div style={rootStyle}>
+      <AppBar position="fixed" style={buttonBarStyle}>
+        <div>
+          <Grid
+            container
+            //justify="center"
+            alignItems="center"
+            //alignContent="center"
+            direction="row"
+            justify="center"
+          >
+            <Grid item sm={12} md={6} style={{ width: "100%" }}>
+              <Box display="flex" justifyContent="space-around">
+                <Box
+                  display="flex"
+                  className={classes.upperIconBoxWidth}
+                  justifyContent="center"
                 >
-                  <ChevronLeftIcon
-                    style={stepButtonsStyle}
-                    //fontSize="large"
-                  />
-                </IconButton>
-              </Box>
-              <Box
-                className={classes.lowerIconBoxWidth}
-                display="flex"
-                justifyContent="center"
-              >
-                <IconButton
-                  onClick={props.onStepForward}
-                  disabled={!props.isRunning}
+                  <IconButton
+                    onClick={props.onStepSuccess}
+                    disabled={!props.isRunning}
+                  >
+                    <CheckCircleIcon style={playButtonStyle} />
+                  </IconButton>
+                </Box>
+                <Box
+                  display="flex"
+                  className={classes.upperIconBoxWidth}
+                  justifyContent="center"
                 >
-                  <ChevronRightIcon
-                    style={stepButtonsStyle}
-                    //fontSize="large"
-                  />
-                </IconButton>
+                  <IconButton
+                    onClick={props.onStepCancelRed}
+                    disabled={!props.isRunning}
+                  >
+                    <CancelIcon style={cancelButtonStyle} />
+                  </IconButton>
+                </Box>
+                <Box
+                  display="flex"
+                  className={classes.upperIconBoxWidth}
+                  justifyContent="center"
+                >
+                  <IconButton
+                    onClick={props.onStepWarning}
+                    disabled={!props.isRunning}
+                  >
+                    <WarningIcon style={warningButtonStyle} />
+                  </IconButton>
+                </Box>
+                <Box
+                  display="flex"
+                  className={classes.upperIconBoxWidth}
+                  justifyContent="center"
+                >
+                  <IconButton
+                    onClick={props.onStepCancelGrey}
+                    disabled={!props.isRunning}
+                  >
+                    <CancelIcon style={secondCancelButtonStyle} />
+                  </IconButton>
+                </Box>
+                <Box
+                  className={classes.upperIconBoxWidth}
+                  display="flex"
+                  justifyContent="center"
+                >
+                  <IconButton
+                    onClick={props.onCreateBug}
+                    disabled={!props.isRunning}
+                  >
+                    <BugReportIcon
+                      /*fontSize="large" */ style={bugButtonStyle}
+                    />
+                  </IconButton>
+                </Box>
               </Box>
-              <Box
-                className={classes.lowerIconBoxWidth}
-                display="flex"
-                justifyContent="center"
-              >
-                <IconButton onClick={props.onStart} disabled={props.isRunning}>
-                  <PlayCircleOutlineIcon
-                    style={startButtonStyle}
-                    //fontSize="large"
-                  />
-                </IconButton>
+            </Grid>
+
+            <Grid item sm={12} md={6} style={{ width: "100%" }}>
+              <Box display="flex" justifyContent="space-around">
+                <Box
+                  className={classes.lowerIconBoxWidth}
+                  display="flex"
+                  justifyContent="center"
+                >
+                  <IconButton
+                    onClick={props.onStepBack}
+                    disabled={!props.isRunning}
+                  >
+                    <ChevronLeftIcon
+                      style={stepButtonsStyle}
+                      //fontSize="large"
+                    />
+                  </IconButton>
+                </Box>
+                <Box
+                  className={classes.lowerIconBoxWidth}
+                  display="flex"
+                  justifyContent="center"
+                >
+                  <IconButton
+                    onClick={props.onStepForward}
+                    disabled={!props.isRunning}
+                  >
+                    <ChevronRightIcon
+                      style={stepButtonsStyle}
+                      //fontSize="large"
+                    />
+                  </IconButton>
+                </Box>
+                <Box
+                  className={classes.lowerIconBoxWidth}
+                  display="flex"
+                  justifyContent="center"
+                >
+                  <IconButton
+                    onClick={props.onStart}
+                    disabled={props.isRunning}
+                  >
+                    <PlayCircleOutlineIcon
+                      style={startButtonStyle}
+                      //fontSize="large"
+                    />
+                  </IconButton>
+                </Box>
+                <Box
+                  className={classes.lowerIconBoxWidth}
+                  display="flex"
+                  justifyContent="center"
+                >
+                  <IconButton
+                    onClick={props.onPause}
+                    disabled={!props.isRunning}
+                  >
+                    <PauseCircleOutlineIcon
+                      style={stopButtonStyle}
+                      //fontSize="large"
+                    />
+                  </IconButton>
+                </Box>
               </Box>
-              <Box
-                className={classes.lowerIconBoxWidth}
-                display="flex"
-                justifyContent="center"
-              >
-                <IconButton onClick={props.onPause} disabled={!props.isRunning}>
-                  <PauseCircleOutlineIcon
-                    style={stopButtonStyle}
-                    //fontSize="large"
-                  />
-                </IconButton>
-              </Box>
-            </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </div>
-    </AppBar>
+        </div>
+      </AppBar>
+    </div>
   );
 };
 

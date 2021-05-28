@@ -13,6 +13,7 @@ import Appbar from "../Appbar";
 import CollapsibleContainer from "./components/CollapsibleContainer";
 import BottomAppbar from "../BottomAppbar";
 import mockData from "../../data/mockdata";
+import values from "../../data/mockdata";
 import DirectionsRunIcon from "@material-ui/icons/DirectionsRun";
 import { useWindowDimensions } from "../../customHooks";
 
@@ -22,6 +23,7 @@ export interface IStepData {
   actualResult: string;
   isImportant?: boolean;
 }
+export interface ITestrunnerData {}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +36,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     stepsContainer: {
       paddingBottom: 50,
-      marginBottom: 75,
       overflow: "auto",
       backgroundColor: "#ECF0F1 ",
     },
@@ -169,11 +170,11 @@ function TestRunner() {
   const [calculatedHeight, setCalculatedHeight] = useState<number>(0);
   const [running, setRunning] = useState<boolean>(false);
   const [actualStepIndex, setActualStepIndex] = useState<number>(-1);
-  const { height: windowHeight } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
 
   const actualStepRef = useRef<any>();
-  const navBarHeightRef = useRef<any>();
-  const bottomBarHeightRef = useRef<any>();
+  const navBarRef = useRef<any>();
+  const bottomBarRef = useRef<any>();
 
   useEffect(() => {
     if (actualStepRef.current) {
@@ -182,18 +183,10 @@ function TestRunner() {
   }, [actualStepRef.current]);
 
   useEffect(() => {
-    var navBarBounding = navBarHeightRef.current.getBoundingClientRect();
-    var bottomBarBounding = bottomBarHeightRef.current.getBoundingClientRect();
-
-    const actualNavBarHeight = navBarBounding.height;
-    const actualBottomBarHeight = bottomBarBounding.height;
-
-    setCalculatedHeight(
-      windowHeight - (actualNavBarHeight + actualBottomBarHeight)
-    );
-  }, [navBarHeightRef.current, bottomBarHeightRef.current]);
-
-  useEffect(() => {}, [calculatedHeight]);
+    const navBarHeight = navBarRef.current.getBoundingClientRect().height;
+    const bottomBarHeight = bottomBarRef.current.getBoundingClientRect().height;
+    setCalculatedHeight(height - (navBarHeight + bottomBarHeight));
+  }, [width, height]);
 
   useEffect(() => {
     if (running) {
@@ -361,7 +354,7 @@ function TestRunner() {
       justify="center"
       className={classes.root}
     >
-      <Grid item xl={12} ref={navBarHeightRef}>
+      <Grid item xl={12} ref={navBarRef}>
         {/* REF */}
         <Appbar
           actualStep={0}
@@ -386,7 +379,7 @@ function TestRunner() {
         })}
       </Grid>
 
-      <Grid item xl={12} ref={bottomBarHeightRef}>
+      <Grid item xl={12} ref={bottomBarRef}>
         {/* REF */}
         <BottomAppbar
           isRunning={running}
