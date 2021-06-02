@@ -242,10 +242,10 @@ function TestRunner() {
 
   const createTestStepRow = (
     index: number,
+    isImportant: boolean,
     action: string,
     expectedResult: string,
-    actualResult: string,
-    isImportant?: boolean
+    actualResult: string
   ) => {
     const paperClassName =
       actualStepIndex !== index
@@ -369,12 +369,18 @@ function TestRunner() {
         style={{ height: calculatedHeight }}
       >
         {mockData.map((row, index) => {
+          const _index = index;
+          const _isImportant = row.isImportant ? true : false;
+          const _action = row.action;
+          const _expected = row.expectedResult;
+          const _result = row.actualResult;
+
           return createTestStepRow(
-            index,
-            row.action,
-            row.expectedResult,
-            row.actualResult,
-            row.isImportant
+            _index,
+            _isImportant,
+            _action,
+            _expected,
+            _result
           );
         })}
       </Grid>

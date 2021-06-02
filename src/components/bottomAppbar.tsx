@@ -22,6 +22,7 @@ import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import PauseCircleOutlineIcon from "@material-ui/icons/PauseCircleOutline";
 import WarningIcon from "@material-ui/icons/Warning";
 import { PeopleTwoTone } from "@material-ui/icons";
+import StopIcon from "@material-ui/icons/Stop";
 
 interface Props {
   onStepSuccess: () => void;
@@ -284,6 +285,21 @@ const BottomAppbar = (props: Props) => {
                     disabled={!props.isRunning}
                   >
                     <PauseCircleOutlineIcon
+                      style={stopButtonStyle}
+                      //fontSize="large"
+                    />
+                  </IconButton>
+                </Box>
+                <Box
+                  className={classes.lowerIconBoxWidth}
+                  display="flex"
+                  justifyContent="center"
+                >
+                  <IconButton
+                    onClick={props.onPause}
+                    disabled={!props.isRunning}
+                  >
+                    <StopIcon
                       style={stopButtonStyle}
                       //fontSize="large"
                     />
